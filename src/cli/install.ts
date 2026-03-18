@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs';
+import { createInterface } from 'node:readline';
 import {
   addPluginToOpenCodeConfig,
   detectCurrentConfig,
@@ -32,6 +33,33 @@ const SYMBOLS = {
   warn: `${YELLOW}⚠${RESET}`,
   star: `${YELLOW}★${RESET}`,
 };
+
+async function confirmOverwrite(
+  configPath: string,
+  interactive: boolean,
+): Promise<boolean> {
+  if (!interactive) {
+    printInfo(
+      `Configuration already exists at ${configPath}. Skipping overwrite in non-interactive mode. Use --reset to overwrite.`,
+    );
+    return false;
+  }
+
+  return await new Promise<boolean>((resolve) => {
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    rl.question(
+      `Configuration already exists at ${configPath}. Overwrite with default settings? [y/N] `,
+      (answer) => {
+        rl.close();
+        const normalized = answer.trim().toLowerCase();
+        resolve(normalized === 'y' || normalized === 'yes');
+      },
+    );
+  });
+}
 
 function printHeader(isUpdate: boolean): void {
   console.log();
@@ -102,12 +130,16 @@ function formatConfigSummary(): string {
   const lines: string[] = [];
   lines.push(`${BOLD}Configuration Summary${RESET}`);
   lines.push('');
-  lines.push(`  ${BOLD}Preset:${RESET} ${BLUE}openai${RESET}`);
-  lines.push(`  ${SYMBOLS.check} OpenAI (default)`);
-  const seeDocs = 'see docs/provider-configurations.md';
-  lines.push(`  ${DIM}○ Kimi — ${seeDocs}${RESET}`);
-  lines.push(`  ${DIM}○ GitHub Copilot — ${seeDocs}${RESET}`);
-  lines.push(`  ${DIM}○ ZAI Coding Plan — ${seeDocs}${RESET}`);
+  lines.push(`  ${BOLD}Preset:${RESET} ${BLUE}mgb${RESET}`);
+  lines.push(`  ${SYMBOLS.check} MGB (default)`);
+  lines.push(`  ${DIM}○ OpenAI — see docs/provider-configurations.md${RESET}`);
+  lines.push(`  ${DIM}○ Kimi — see docs/provider-configurations.md${RESET}`);
+  lines.push(
+    `  ${DIM}○ GitHub Copilot — see docs/provider-configurations.md${RESET}`,
+  );
+  lines.push(
+    `  ${DIM}○ ZAI Coding Plan — see docs/provider-configurations.md${RESET}`,
+  );
   return lines.join('\n');
 }
 
@@ -155,10 +187,12 @@ async function runInstall(config: InstallConfig): Promise<number> {
     const configExists = existsSync(configPath);
 
     if (configExists && !config.reset) {
-      printInfo(
-        `Configuration already exists at ${configPath}. ` +
-          'Use --reset to overwrite.',
-      );
+      const interactive = config.tui !== false;
+      const shouldOverwrite = await confirmOverwrite(configPath, interactive);
+      if (shouldOverwrite) {
+        const liteResult = writeLiteConfig(config, configPath);
+        if (!handleStepResult(liteResult, 'Config overwritten')) return 1;
+      }
     } else {
       const liteResult = writeLiteConfig(
         config,
@@ -230,10 +264,11 @@ async function runInstall(config: InstallConfig): Promise<number> {
   console.log(formatConfigSummary());
   console.log();
 
-  const statusMsg = isUpdate
-    ? 'Configuration updated!'
-    : 'Installation complete!';
-  console.log(`${SYMBOLS.star} ${BOLD}${GREEN}${statusMsg}${RESET}`);
+  console.log(
+    `${SYMBOLS.star} ${BOLD}${GREEN}${
+      isUpdate ? 'Configuration updated!' : 'Installation complete!'
+    }${RESET}`,
+  );
   console.log();
   console.log(`${BOLD}Next steps:${RESET}`);
   console.log();
@@ -241,16 +276,15 @@ async function runInstall(config: InstallConfig): Promise<number> {
   console.log(`  1. Start OpenCode:`);
   console.log(`     ${BLUE}$ opencode${RESET}`);
   console.log();
-  const modelsInfo =
-    'Default configuration uses OpenAI models (gpt-5.4 / gpt-5.4-mini).';
-  console.log(`${BOLD}${modelsInfo}${RESET}`);
-  const altProviders =
-    'For alternative providers (Kimi, GitHub Copilot, ZAI Coding Plan)';
-  console.log(`${BOLD}${altProviders}, see:${RESET}`);
-  const docsUrl =
-    'https://github.com/alvinunreal/oh-my-opencode-slim/' +
-    'blob/master/docs/provider-configurations.md';
-  console.log(`  ${BLUE}${docsUrl}${RESET}`);
+  console.log(
+    `${BOLD}Default configuration uses MGB models (gpt-5.1 / gpt-5.3-codex).${RESET}`,
+  );
+  console.log(
+    `${BOLD}For alternative providers (Kimi, GitHub Copilot, ZAI Coding Plan), see:${RESET}`,
+  );
+  console.log(
+    `  ${BLUE}https://github.com/krauhen/oh-my-opencode-slim/blob/master/docs/provider-configurations.md${RESET}`,
+  );
   console.log();
 
   return 0;
@@ -263,6 +297,7 @@ export async function install(args: InstallArgs): Promise<number> {
     installCustomSkills: args.skills === 'yes',
     dryRun: args.dryRun,
     reset: args.reset ?? false,
+    tui: args.tui,
   };
 
   return runInstall(config);

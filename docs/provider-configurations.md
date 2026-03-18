@@ -1,26 +1,67 @@
 # Provider Configurations
 
-oh-my-opencode-slim uses **OpenAI** as the default provider. This document shows how to configure alternative providers by editing your plugin config file.
+oh-my-opencode-slim uses **MGB** as the default provider. This document shows how to configure alternative providers by editing your plugin config file.
 
 ## Config File Location
 
 Edit `~/.config/opencode/oh-my-opencode-slim.json` (or `.jsonc` for comments support).
 
-## Default: OpenAI
+## Default: MGB (this fork)
 
-The installer generates this configuration automatically:
+This fork's installer generates the following configuration by default:
 
 ```json
 {
-  "preset": "openai",
+  "preset": "mgb",
   "presets": {
-    "openai": {
-      "orchestrator": { "model": "openai/gpt-5.4", "variant": "high", "skills": ["*"], "mcps": ["websearch"] },
-      "oracle": { "model": "openai/gpt-5.4", "variant": "high", "skills": [], "mcps": [] },
-      "librarian": { "model": "openai/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": ["websearch", "context7", "grep_app"] },
-      "explorer": { "model": "openai/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": [] },
-      "designer": { "model": "openai/gpt-5.4-mini", "variant": "medium", "skills": ["agent-browser"], "mcps": [] },
-      "fixer": { "model": "openai/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": [] }
+    "mgb": {
+      "orchestrator": {
+        "model": "mgb/gpt-5.1",
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "websearch"
+        ]
+      },
+      "oracle": {
+        "model": "mgb/gpt-5.1",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "mgb/gpt-5.3-codex",
+        "variant": "low",
+        "skills": [],
+        "mcps": [
+          "websearch",
+          "context7",
+          "grep_app",
+          "arxiv",
+          "raas"
+        ]
+      },
+      "explorer": {
+        "model": "mgb/gpt-5.3-codex",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "mgb/gpt-5.3-codex",
+        "variant": "medium",
+        "skills": [
+          "agent-browser"
+        ],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "mgb/gpt-5.3-codex",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      }
     }
   }
 }

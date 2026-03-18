@@ -21,6 +21,8 @@ export interface InstallConfig {
   installCustomSkills: boolean;
   dryRun?: boolean;
   reset: boolean;
+  // When true/undefined, CLI may prompt user; when false (e.g. --no-tui), stay non-interactive.
+  tui?: boolean;
 }
 
 export interface ConfigMergeResult {

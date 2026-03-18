@@ -9,40 +9,38 @@ describe('providers', () => {
     expect(keys.sort()).toEqual(['copilot', 'kimi', 'openai', 'zai-plan']);
   });
 
-  test('generateLiteConfig always generates openai preset', () => {
+  test('generateLiteConfig always generates mgb preset', () => {
     const config = generateLiteConfig({
       hasTmux: false,
       installSkills: false,
       installCustomSkills: false,
     });
 
-    expect(config.preset).toBe('openai');
-    const agents = (config.presets as any).openai;
+    expect(config.preset).toBe('mgb');
+    const agents = (config.presets as any).mgb;
     expect(agents).toBeDefined();
-    expect(agents.orchestrator.model).toBe('openai/gpt-5.4');
+    expect(agents.orchestrator.model).toBe('mgb/gpt-5.1');
     expect(agents.orchestrator.variant).toBeUndefined();
-    expect(agents.fixer.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.fixer.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.fixer.variant).toBe('low');
   });
 
-  test('generateLiteConfig uses correct OpenAI models', () => {
+  test('generateLiteConfig uses correct MGB models', () => {
     const config = generateLiteConfig({
       hasTmux: false,
       installSkills: false,
       installCustomSkills: false,
     });
 
-    const agents = (config.presets as any).openai;
-    expect(agents.orchestrator.model).toBe(
-      MODEL_MAPPINGS.openai.orchestrator.model,
-    );
-    expect(agents.oracle.model).toBe('openai/gpt-5.4');
+    const agents = (config.presets as any).mgb;
+    expect(agents.orchestrator.model).toBe('mgb/gpt-5.1');
+    expect(agents.oracle.model).toBe('mgb/gpt-5.1');
     expect(agents.oracle.variant).toBe('high');
-    expect(agents.librarian.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.librarian.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.librarian.variant).toBe('low');
-    expect(agents.explorer.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.explorer.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.explorer.variant).toBe('low');
-    expect(agents.designer.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.designer.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.designer.variant).toBe('medium');
   });
 
@@ -65,7 +63,7 @@ describe('providers', () => {
       installCustomSkills: false,
     });
 
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     // Orchestrator should always have '*'
     expect(agents.orchestrator.skills).toEqual(['*']);
 
@@ -83,25 +81,27 @@ describe('providers', () => {
       installCustomSkills: false,
     });
 
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     expect(agents.orchestrator.mcps).toBeDefined();
     expect(Array.isArray(agents.orchestrator.mcps)).toBe(true);
     expect(agents.librarian.mcps).toBeDefined();
     expect(Array.isArray(agents.librarian.mcps)).toBe(true);
   });
 
-  test('generateLiteConfig openai includes correct mcps', () => {
+  test('generateLiteConfig mgb includes correct mcps', () => {
     const config = generateLiteConfig({
       hasTmux: false,
       installSkills: false,
       installCustomSkills: false,
     });
 
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     expect(agents.orchestrator.mcps).toContain('websearch');
     expect(agents.librarian.mcps).toContain('websearch');
     expect(agents.librarian.mcps).toContain('context7');
     expect(agents.librarian.mcps).toContain('grep_app');
+    expect(agents.librarian.mcps).toContain('arxiv');
+    expect(agents.librarian.mcps).toContain('raas');
     expect(agents.designer.mcps).toEqual([]);
   });
 });

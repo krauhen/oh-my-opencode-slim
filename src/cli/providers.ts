@@ -1,5 +1,3 @@
-import { DEFAULT_AGENT_MCPS } from '../config/agent-mcps';
-import { RECOMMENDED_SKILLS } from './skills';
 import type { InstallConfig } from './types';
 
 // Model mappings by provider - only 4 supported providers
@@ -45,49 +43,47 @@ export function generateLiteConfig(
   installConfig: InstallConfig,
 ): Record<string, unknown> {
   const config: Record<string, unknown> = {
-    preset: 'openai',
-    presets: {},
+    preset: 'mgb',
+    presets: {
+      mgb: {
+        orchestrator: {
+          model: 'mgb/gpt-5.1',
+          skills: ['*'],
+          mcps: ['websearch'],
+        },
+        oracle: {
+          model: 'mgb/gpt-5.1',
+          variant: 'high',
+          skills: [],
+          mcps: [],
+        },
+        librarian: {
+          model: 'mgb/gpt-5.3-codex',
+          variant: 'low',
+          skills: [],
+          mcps: ['websearch', 'context7', 'grep_app', 'arxiv', 'raas'],
+        },
+        explorer: {
+          model: 'mgb/gpt-5.3-codex',
+          variant: 'low',
+          skills: [],
+          mcps: [],
+        },
+        designer: {
+          model: 'mgb/gpt-5.3-codex',
+          variant: 'medium',
+          skills: ['agent-browser'],
+          mcps: [],
+        },
+        fixer: {
+          model: 'mgb/gpt-5.3-codex',
+          variant: 'low',
+          skills: [],
+          mcps: [],
+        },
+      },
+    },
   };
-
-  const createAgentConfig = (
-    agentName: string,
-    modelInfo: { model: string; variant?: string },
-  ) => {
-    const isOrchestrator = agentName === 'orchestrator';
-
-    const skills = isOrchestrator
-      ? ['*']
-      : RECOMMENDED_SKILLS.filter(
-          (s) =>
-            s.allowedAgents.includes('*') ||
-            s.allowedAgents.includes(agentName),
-        ).map((s) => s.skillName);
-
-    if (agentName === 'designer' && !skills.includes('agent-browser')) {
-      skills.push('agent-browser');
-    }
-
-    return {
-      model: modelInfo.model,
-      variant: modelInfo.variant,
-      skills,
-      mcps:
-        DEFAULT_AGENT_MCPS[agentName as keyof typeof DEFAULT_AGENT_MCPS] ?? [],
-    };
-  };
-
-  const buildPreset = (mappingName: keyof typeof MODEL_MAPPINGS) => {
-    const mapping = MODEL_MAPPINGS[mappingName];
-    return Object.fromEntries(
-      Object.entries(mapping).map(([agentName, modelInfo]) => [
-        agentName,
-        createAgentConfig(agentName, modelInfo),
-      ]),
-    );
-  };
-
-  // Always use OpenAI as default
-  (config.presets as Record<string, unknown>).openai = buildPreset('openai');
 
   if (installConfig.hasTmux) {
     config.tmux = {

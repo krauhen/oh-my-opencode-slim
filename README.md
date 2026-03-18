@@ -17,26 +17,32 @@
 
 ### Quick Start
 
+Clone and install directly from this repository:
+
 ```bash
-bunx oh-my-opencode-slim@latest install
+git clone https://github.com/krauhen/oh-my-opencode-slim.git
+cd oh-my-opencode-slim
+bun install
+bun src/cli/index.ts install
 ```
 
-The installer generates an OpenAI configuration by default (using `gpt-5.4` and `gpt-5.4-mini`). No provider questions asked.
+The installer generates an MGB configuration by default (using
+`gpt-5.1` and `gpt-5.3-codex`). No provider questions asked.
 
 For non-interactive mode:
 
 ```bash
-bunx oh-my-opencode-slim@latest install --no-tui --tmux=yes --skills=yes
+bun src/cli/index.ts install --no-tui --tmux=no --skills=yes
 ```
 
 To force overwrite of an existing configuration:
 ```bash
-bunx oh-my-opencode-slim@latest install --reset
+bun src/cli/index.ts install --reset
 ```
 
 ### For Alternative Providers
 
-The default configuration uses OpenAI. To use Kimi, GitHub Copilot, or ZAI Coding Plan, see **[Provider Configurations](docs/provider-configurations.md)** for step-by-step instructions and config examples.
+The default configuration in this fork uses the MGB models. To use OpenAI, Kimi, GitHub Copilot, or ZAI Coding Plan, see **[Provider Configurations](docs/provider-configurations.md)** for step-by-step instructions and config examples.
 
 ### JSON Schema
 
@@ -57,7 +63,7 @@ Paste this into any coding agent:
 
 ```
 Install and configure by following the instructions here:
-https://raw.githubusercontent.com/alvinunreal/oh-my-opencode-slim/refs/heads/master/README.md
+https://raw.githubusercontent.com/krauhen/oh-my-opencode-slim/refs/heads/master/README.md
 ```
 
 **Detailed installation guide:** [docs/installation.md](docs/installation.md)
