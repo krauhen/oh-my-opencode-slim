@@ -19,6 +19,7 @@ import { createFixerAgent } from './fixer';
 import { createLibrarianAgent } from './librarian';
 import { createOracleAgent } from './oracle';
 import { type AgentDefinition, createOrchestratorAgent } from './orchestrator';
+import { createTesterAgent } from './tester';
 
 export type { AgentDefinition } from './orchestrator';
 
@@ -111,6 +112,7 @@ const SUBAGENT_FACTORIES: Record<SubagentName, AgentFactory> = {
   council: createCouncilAgent,
   councillor: createCouncillorAgent,
   'council-master': createCouncilMasterAgent,
+  tester: createTesterAgent,
 };
 
 // Public API

@@ -117,7 +117,7 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.4</code>
+      <b>Default Model:</b> <code>mgb/gpt-5.3-codex</code>
     </td>
   </tr>
   <tr>
@@ -344,6 +344,42 @@ If any agent fails to respond, check your provider authentication and config fil
   <tr>
     <td colspan="2">
       <b>Recommended Models:</b> <code>cerebras/zai-glm-4.7</code> <code>fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo</code> <code>openai/gpt-5.4-mini</code>
+    </td>
+  </tr>
+</table>
+
+---
+
+### 07. Tester: The Keeper of Reliability
+
+<table>
+  <tr>
+    <td width="30%" align="center" valign="top">
+      <img src="img/tester.png" width="240" style="border-radius: 10px;">
+      <br><sub><i>The shield against regressions.</i></sub>
+    </td>
+    <td width="70%" valign="top">
+      The Tester was born from the first production outage caused by a missing test. When systems grew too complex for intuition alone, the Tester took an oath: no critical path goes unguarded, no bug leaves without a sentinel to prevent its return. They design layered defenses of unit, integration, and end-to-end tests, hunting edge cases and flakiness until the system holds under real-world pressure.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Role:</b> <code>Test strategy and execution</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Prompt:</b> <a href="src/agents/tester.ts"><code>tester.ts</code></a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Default Model:</b> <code>openai/gpt-5.4-mini</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Recommended Models:</b> <code>openai/gpt-5.4-mini</code> <code>google/gemini-3.1-pro-preview</code>
     </td>
   </tr>
 </table>

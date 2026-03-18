@@ -13,6 +13,7 @@ export const SUBAGENT_NAMES = [
   'council',
   'councillor',
   'council-master',
+  'tester',
 ] as const;
 
 export const ORCHESTRATOR_NAME = 'orchestrator' as const;
@@ -36,6 +37,7 @@ export const ORCHESTRATABLE_AGENTS = [
   'oracle',
   'designer',
   'fixer',
+  'tester',
   'council',
 ] as const;
 
@@ -49,6 +51,7 @@ export const SUBAGENT_DELEGATION_RULES: Record<AgentName, readonly string[]> = {
   council: [],
   councillor: [],
   'council-master': [],
+  tester: [],
 };
 
 // Default models for each agent
@@ -60,6 +63,7 @@ export const DEFAULT_MODELS: Record<AgentName, string | undefined> = {
   explorer: 'openai/gpt-5.4-mini',
   designer: 'openai/gpt-5.4-mini',
   fixer: 'openai/gpt-5.4-mini',
+  tester: 'openai/gpt-5.4-mini',
   council: 'openai/gpt-5.4-mini',
   councillor: 'openai/gpt-5.4-mini',
   'council-master': 'openai/gpt-5.4-mini',

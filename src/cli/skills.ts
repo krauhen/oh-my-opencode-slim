@@ -48,12 +48,210 @@ export const RECOMMENDED_SKILLS: RecommendedSkill[] = [
     name: 'agent-browser',
     repo: 'https://github.com/vercel-labs/agent-browser',
     skillName: 'agent-browser',
-    allowedAgents: ['designer'],
+    allowedAgents: ['designer', 'explorer', 'orchestrator'],
     description: 'High-performance browser automation',
     postInstallCommands: [
       'npm install -g agent-browser',
       'agent-browser install',
     ],
+  },
+  // Explorer-focused skills
+  {
+    name: 'browser-use',
+    repo: 'https://github.com/browser-use/browser-use',
+    skillName: 'browser-use',
+    allowedAgents: ['explorer', 'orchestrator'],
+    description: 'Headless browser automation and web interaction',
+  },
+  {
+    name: 'search',
+    repo: 'https://github.com/tavily-ai/skills',
+    skillName: 'search',
+    allowedAgents: ['explorer', 'librarian', 'orchestrator'],
+    description: 'High-quality web search and retrieval',
+  },
+  {
+    name: 'codebase-search',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'codebase-search',
+    allowedAgents: ['explorer', 'fixer', 'orchestrator'],
+    description: 'Deep codebase navigation and symbol search',
+  },
+  // Librarian-focused skills
+  {
+    name: 'api-documentation',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'api-documentation',
+    allowedAgents: ['librarian', 'oracle', 'orchestrator'],
+    description: 'Structured API documentation and examples',
+  },
+  {
+    name: 'technical-writing',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'technical-writing',
+    allowedAgents: ['librarian', 'oracle', 'orchestrator'],
+    description: 'Clear technical explanations and docs',
+  },
+  {
+    name: 'next-best-practices',
+    repo: 'https://github.com/vercel-labs/next-skills',
+    skillName: 'next-best-practices',
+    allowedAgents: ['librarian', 'designer', 'orchestrator'],
+    description: 'Next.js App Router and caching best practices',
+  },
+  {
+    name: 'ai-sdk',
+    repo: 'https://github.com/vercel/ai',
+    skillName: 'ai-sdk',
+    allowedAgents: ['librarian', 'fixer', 'orchestrator'],
+    description: 'Vercel AI SDK patterns and recipes',
+  },
+  // Oracle-focused skills
+  {
+    name: 'code-review',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'code-review',
+    allowedAgents: ['oracle', 'fixer', 'orchestrator'],
+    description: 'Systematic code review and refactoring guidance',
+  },
+  {
+    name: 'requesting-code-review',
+    repo: 'https://github.com/obra/superpowers',
+    skillName: 'requesting-code-review',
+    allowedAgents: ['oracle', 'orchestrator'],
+    description:
+      'Standardized prompts for requesting thorough code reviews from subagents',
+  },
+  {
+    name: 'receiving-code-review',
+    repo: 'https://github.com/obra/superpowers',
+    skillName: 'receiving-code-review',
+    allowedAgents: ['oracle', 'fixer', 'orchestrator'],
+    description:
+      'Best practices for addressing and integrating code review feedback',
+  },
+  {
+    name: 'performance-optimization',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'performance-optimization',
+    allowedAgents: ['oracle', 'fixer', 'orchestrator'],
+    description: 'Application performance analysis and optimization patterns',
+  },
+  {
+    name: 'subagent-driven-development',
+    repo: 'https://github.com/obra/superpowers',
+    skillName: 'subagent-driven-development',
+    allowedAgents: ['oracle', 'orchestrator'],
+    description: 'Workflows for coordinating subagents in complex tasks',
+  },
+  // Designer-focused skills
+  {
+    name: 'web-design-guidelines',
+    repo: 'https://github.com/vercel-labs/agent-skills',
+    skillName: 'web-design-guidelines',
+    allowedAgents: ['designer', 'orchestrator'],
+    description: 'Opinionated web design and UX guidelines',
+  },
+  {
+    name: 'frontend-design',
+    repo: 'https://github.com/anthropics/skills',
+    skillName: 'frontend-design',
+    allowedAgents: ['designer', 'orchestrator'],
+    description: 'High-level frontend UX and visual design patterns',
+  },
+  {
+    name: 'ui-ux-pro-max',
+    repo: 'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill',
+    skillName: 'ui-ux-pro-max',
+    allowedAgents: ['designer'],
+    description: 'Advanced UI/UX heuristics for product interfaces',
+  },
+  {
+    name: 'polish',
+    repo: 'https://github.com/pbakaus/impeccable',
+    skillName: 'polish',
+    allowedAgents: ['designer'],
+    description: 'Last-mile UI polish and refinement',
+  },
+  {
+    name: 'responsive-design',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'responsive-design',
+    allowedAgents: ['designer', 'orchestrator'],
+    description: 'Responsive layout patterns across devices and viewports',
+  },
+  // Fixer-focused skills
+  {
+    name: 'copilot-coding-agent',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'copilot-coding-agent',
+    allowedAgents: ['fixer', 'orchestrator'],
+    description:
+      'Execution-focused coding workflows for implementation subagents',
+  },
+  {
+    name: 'task-planning',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'task-planning',
+    allowedAgents: ['fixer', 'orchestrator'],
+    description: 'Structured breakdown of coding tasks and substeps',
+  },
+  {
+    name: 'code-refactoring',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'code-refactoring',
+    allowedAgents: ['fixer', 'oracle', 'orchestrator'],
+    description: 'Refactoring patterns for safer code improvements',
+  },
+  {
+    name: 'deployment-automation',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'deployment-automation',
+    allowedAgents: ['fixer', 'orchestrator'],
+    description: 'Automating deployment workflows and release steps',
+  },
+  {
+    name: 'git-workflow',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'git-workflow',
+    allowedAgents: ['fixer', 'orchestrator'],
+    description: 'Git branching, commits, and collaboration patterns',
+  },
+  // Tester-focused skills
+  {
+    name: 'test-driven-development',
+    repo: 'https://github.com/obra/superpowers',
+    skillName: 'test-driven-development',
+    allowedAgents: ['tester', 'fixer', 'orchestrator'],
+    description: 'TDD workflows for incremental, safe implementation',
+  },
+  {
+    name: 'testing-strategies',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'testing-strategies',
+    allowedAgents: ['tester', 'oracle', 'orchestrator'],
+    description: 'End-to-end testing strategy design and coverage planning',
+  },
+  {
+    name: 'backend-testing',
+    repo: 'https://github.com/supercent-io/skills-template',
+    skillName: 'backend-testing',
+    allowedAgents: ['tester', 'fixer', 'orchestrator'],
+    description: 'API and backend test patterns and regression suites',
+  },
+  {
+    name: 'webapp-testing',
+    repo: 'https://github.com/anthropics/skills',
+    skillName: 'webapp-testing',
+    allowedAgents: ['tester', 'designer', 'orchestrator'],
+    description: 'Systematic testing for web applications and flows',
+  },
+  {
+    name: 'playwright-best-practices',
+    repo: 'https://github.com/currents-dev/playwright-best-practices-skill',
+    skillName: 'playwright-best-practices',
+    allowedAgents: ['tester', 'designer', 'orchestrator'],
+    description: 'Best practices for writing and maintaining Playwright tests',
   },
 ];
 
@@ -61,14 +259,7 @@ export const RECOMMENDED_SKILLS: RecommendedSkill[] = [
  * Skills managed externally (not installed by this plugin's CLI).
  * Entries here only affect agent permission grants — nothing is installed.
  */
-export const PERMISSION_ONLY_SKILLS: PermissionOnlySkill[] = [
-  {
-    name: 'requesting-code-review',
-    allowedAgents: ['oracle'],
-    description:
-      'Code review template for reviewer subagents in multi-step workflows',
-  },
-];
+export const PERMISSION_ONLY_SKILLS: PermissionOnlySkill[] = [];
 
 /**
  * Install a skill using `npx skills add`.

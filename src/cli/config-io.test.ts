@@ -120,7 +120,7 @@ describe('config-io', () => {
     expect(saved.plugin.length).toBe(2);
   });
 
-  test('writeLiteConfig writes lite config with OpenAI preset', () => {
+  test('writeLiteConfig writes lite config with MGB preset', () => {
     const litePath = join(tmpDir, 'opencode', 'oh-my-opencode-slim.json');
     paths.ensureConfigDir();
 
@@ -133,8 +133,11 @@ describe('config-io', () => {
     expect(result.success).toBe(true);
 
     const saved = JSON.parse(readFileSync(litePath, 'utf-8'));
-    expect(saved.preset).toBe('openai');
-    expect(saved.presets.openai).toBeDefined();
+    expect(saved.preset).toBe('mgb');
+    expect(saved.presets.mgb).toBeDefined();
+    expect(saved.presets.mgb.tester).toBeDefined();
+    expect(saved.presets.mgb.tester.model).toBe('mgb/gpt-5.3-codex');
+    expect(saved.presets.mgb.tester.variant).toBe('high');
     expect(saved.tmux.enabled).toBe(true);
   });
 

@@ -14,6 +14,7 @@ describe('providers', () => {
       hasTmux: false,
       installSkills: false,
       installCustomSkills: false,
+      reset: false,
     });
 
     expect(config.preset).toBe('mgb');
@@ -30,6 +31,7 @@ describe('providers', () => {
       hasTmux: false,
       installSkills: false,
       installCustomSkills: false,
+      reset: false,
     });
 
     const agents = (config.presets as any).mgb;
@@ -49,6 +51,7 @@ describe('providers', () => {
       hasTmux: true,
       installSkills: false,
       installCustomSkills: false,
+      reset: false,
     });
 
     expect(config.tmux).toBeDefined();
@@ -61,17 +64,39 @@ describe('providers', () => {
       hasTmux: false,
       installSkills: true,
       installCustomSkills: false,
+      reset: false,
     });
 
     const agents = (config.presets as any).mgb;
     // Orchestrator should always have '*'
     expect(agents.orchestrator.skills).toEqual(['*']);
 
-    // Designer should have 'agent-browser'
-    expect(agents.designer.skills).toContain('agent-browser');
+    // Explorer should have search and code navigation skills
+    expect(agents.explorer.skills).toEqual([
+      'agent-browser',
+      'browser-use',
+      'search',
+      'codebase-search',
+    ]);
 
-    // Fixer should have no skills by default (empty recommended list)
-    expect(agents.fixer.skills).toEqual([]);
+    // Designer should have browser + design-focused skills
+    expect(agents.designer.skills).toEqual([
+      'agent-browser',
+      'web-design-guidelines',
+      'frontend-design',
+      'ui-ux-pro-max',
+      'polish',
+      'responsive-design',
+    ]);
+
+    // Fixer should have implementation and workflow skills
+    expect(agents.fixer.skills).toEqual([
+      'copilot-coding-agent',
+      'task-planning',
+      'code-refactoring',
+      'deployment-automation',
+      'git-workflow',
+    ]);
   });
 
   test('generateLiteConfig includes mcps field', () => {
@@ -79,6 +104,7 @@ describe('providers', () => {
       hasTmux: false,
       installSkills: false,
       installCustomSkills: false,
+      reset: false,
     });
 
     const agents = (config.presets as any).mgb;
@@ -93,6 +119,7 @@ describe('providers', () => {
       hasTmux: false,
       installSkills: false,
       installCustomSkills: false,
+      reset: false,
     });
 
     const agents = (config.presets as any).mgb;

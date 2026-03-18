@@ -247,6 +247,7 @@ describe('isSubagent type guard', () => {
     expect(isSubagent('oracle')).toBe(true);
     expect(isSubagent('designer')).toBe(true);
     expect(isSubagent('fixer')).toBe(true);
+    expect(isSubagent('tester')).toBe(true);
   });
 
   test('returns false for orchestrator', () => {
@@ -265,6 +266,7 @@ describe('agent classification', () => {
     expect(SUBAGENT_NAMES).not.toContain('orchestrator');
     expect(SUBAGENT_NAMES).toContain('explorer');
     expect(SUBAGENT_NAMES).toContain('fixer');
+    expect(SUBAGENT_NAMES).toContain('tester');
   });
 
   test('getAgentConfigs applies correct classification visibility and mode', () => {
@@ -295,11 +297,12 @@ describe('createAgents', () => {
     expect(names).toContain('oracle');
     expect(names).toContain('librarian');
     expect(names).toContain('fixer');
+    expect(names).toContain('tester');
   });
 
-  test('creates exactly 9 agents (1 primary + 8 subagents)', () => {
+  test('creates exactly 10 agents (1 primary + 9 subagents)', () => {
     const agents = createAgents();
-    expect(agents.length).toBe(9);
+    expect(agents.length).toBe(10);
   });
 });
 

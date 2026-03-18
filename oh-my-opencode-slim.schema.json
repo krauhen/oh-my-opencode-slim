@@ -183,6 +183,33 @@
             "fallback2",
             "fallback3"
           ]
+        },
+        "tester": {
+          "type": "object",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "pattern": "^[^/\\s]+\\/[^\\s]+$"
+            },
+            "fallback1": {
+              "type": "string",
+              "pattern": "^[^/\\s]+\\/[^\\s]+$"
+            },
+            "fallback2": {
+              "type": "string",
+              "pattern": "^[^/\\s]+\\/[^\\s]+$"
+            },
+            "fallback3": {
+              "type": "string",
+              "pattern": "^[^/\\s]+\\/[^\\s]+$"
+            }
+          },
+          "required": [
+            "primary",
+            "fallback1",
+            "fallback2",
+            "fallback3"
+          ]
         }
       },
       "required": [
@@ -470,6 +497,13 @@
               }
             },
             "fixer": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "tester": {
               "minItems": 1,
               "type": "array",
               "items": {
