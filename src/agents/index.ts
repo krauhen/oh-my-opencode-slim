@@ -15,6 +15,7 @@ import {
 import { getAgentMcpList } from '../config/agent-mcps';
 
 import { createCouncilAgent } from './council';
+import { createCouncilMasterAgent } from './council-master';
 import { createCouncillorAgent } from './councillor';
 import { createDesignerAgent } from './designer';
 import { createExplorerAgent } from './explorer';
@@ -27,6 +28,7 @@ import {
   createOrchestratorAgent,
   resolvePrompt,
 } from './orchestrator';
+import { createTesterAgent } from './tester';
 
 export type { AgentDefinition } from './orchestrator';
 
@@ -211,6 +213,8 @@ const SUBAGENT_FACTORIES: Record<SubagentName, AgentFactory> = {
   observer: createObserverAgent,
   council: createCouncilAgent,
   councillor: createCouncillorAgent,
+  'council-master': createCouncilMasterAgent,
+  tester: createTesterAgent,
 };
 
 // Public API

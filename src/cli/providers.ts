@@ -1,14 +1,27 @@
 import { DEFAULT_AGENT_MCPS } from '../config/agent-mcps';
 import { CUSTOM_SKILLS } from './custom-skills';
+import { RECOMMENDED_SKILLS } from './skills';
 import type { InstallConfig } from './types';
 
 const SCHEMA_URL =
   'https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json';
 
-export const GENERATED_PRESETS = ['openai', 'opencode-go'] as const;
+export const GENERATED_PRESETS = ['mgb', 'opencode-go'] as const;
 
 // Model mappings by provider/preset.
 export const MODEL_MAPPINGS = {
+  mgb: {
+    orchestrator: { model: 'mgb/gpt-5.5' },
+    oracle: { model: 'mgb/gpt-5.5', variant: 'high' },
+    council: { model: 'mgb/gpt-5.5', variant: 'high' },
+    librarian: { model: 'mgb/gpt-5.5', variant: 'low' },
+    explorer: { model: 'mgb/gpt-5.5', variant: 'low' },
+    designer: { model: 'mgb/gpt-5.5', variant: 'medium' },
+    fixer: { model: 'mgb/gpt-5.5', variant: 'low' },
+    observer: { model: 'mgb/gpt-5.5' },
+    tester: { model: 'mgb/gpt-5.5', variant: 'high' },
+    'council-master': { model: 'mgb/gpt-5.5' },
+  },
   openai: {
     orchestrator: { model: 'openai/gpt-5.5' },
     oracle: { model: 'openai/gpt-5.5', variant: 'high' },
@@ -16,6 +29,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'openai/gpt-5.4-mini', variant: 'low' },
     designer: { model: 'openai/gpt-5.4-mini', variant: 'medium' },
     fixer: { model: 'openai/gpt-5.4-mini', variant: 'low' },
+    tester: { model: 'openai/gpt-5.4-mini', variant: 'high' },
   },
   kimi: {
     orchestrator: { model: 'kimi-for-coding/k2p5' },
@@ -24,6 +38,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'kimi-for-coding/k2p5', variant: 'low' },
     designer: { model: 'kimi-for-coding/k2p5', variant: 'medium' },
     fixer: { model: 'kimi-for-coding/k2p5', variant: 'low' },
+    tester: { model: 'kimi-for-coding/k2p5', variant: 'high' },
   },
   copilot: {
     orchestrator: { model: 'github-copilot/claude-opus-4.6' },
@@ -35,6 +50,7 @@ export const MODEL_MAPPINGS = {
       variant: 'medium',
     },
     fixer: { model: 'github-copilot/claude-sonnet-4.6', variant: 'low' },
+    tester: { model: 'github-copilot/claude-sonnet-4.6', variant: 'high' },
   },
   'zai-plan': {
     orchestrator: { model: 'zai-coding-plan/glm-5' },
@@ -43,6 +59,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'zai-coding-plan/glm-5', variant: 'low' },
     designer: { model: 'zai-coding-plan/glm-5', variant: 'medium' },
     fixer: { model: 'zai-coding-plan/glm-5', variant: 'low' },
+    tester: { model: 'zai-coding-plan/glm-5', variant: 'high' },
   },
   'opencode-go': {
     orchestrator: { model: 'opencode-go/glm-5.1' },
@@ -80,7 +97,7 @@ export function getGeneratedPresetNames(): GeneratedPresetName[] {
 export function generateLiteConfig(
   installConfig: InstallConfig,
 ): Record<string, unknown> {
-  const preset = installConfig.preset ?? 'openai';
+  const preset = installConfig.preset ?? 'mgb';
   if (!isGeneratedPresetName(preset)) {
     throw new Error(
       `Unsupported preset "${preset}". Available generated presets: ${getGeneratedPresetNames().join(', ')}`,
@@ -105,13 +122,20 @@ export function generateLiteConfig(
 
     const skills = isOrchestrator
       ? ['*']
-      : [
-          ...CUSTOM_SKILLS.filter(
-            (s) =>
-              s.allowedAgents.includes('*') ||
-              s.allowedAgents.includes(agentName),
-          ).map((s) => s.name),
-        ];
+      : Array.from(
+          new Set([
+            ...CUSTOM_SKILLS.filter(
+              (s) =>
+                s.allowedAgents.includes('*') ||
+                s.allowedAgents.includes(agentName),
+            ).map((s) => s.name),
+            ...RECOMMENDED_SKILLS.filter(
+              (s) =>
+                s.allowedAgents.includes('*') ||
+                s.allowedAgents.includes(agentName),
+            ).map((s) => s.name),
+          ]),
+        );
 
     return {
       model: modelInfo.model,

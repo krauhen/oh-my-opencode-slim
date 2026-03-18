@@ -393,7 +393,7 @@ describe('config-io', () => {
     expect(saved.plugin.length).toBe(3);
   });
 
-  test('writeLiteConfig writes lite config with OpenAI preset', () => {
+  test('writeLiteConfig writes lite config with MGB preset', () => {
     const litePath = join(tmpDir, 'opencode', 'oh-my-opencode-slim.json');
     paths.ensureConfigDir();
 
@@ -408,9 +408,12 @@ describe('config-io', () => {
     expect(saved.$schema).toBe(
       'https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json',
     );
-    expect(saved.preset).toBe('openai');
-    expect(saved.presets.openai).toBeDefined();
+    expect(saved.preset).toBe('mgb');
+    expect(saved.presets.mgb).toBeDefined();
     expect(saved.presets['opencode-go']).toBeDefined();
+    expect(saved.presets.mgb.tester).toBeDefined();
+    expect(saved.presets.mgb.tester.model).toBe('mgb/gpt-5.5');
+    expect(saved.presets.mgb.tester.variant).toBe('high');
     expect(saved.tmux.enabled).toBe(true);
   });
 
@@ -429,7 +432,7 @@ describe('config-io', () => {
     const saved = JSON.parse(readFileSync(litePath, 'utf-8'));
     expect(saved.preset).toBe('opencode-go');
     expect(saved.disabled_agents).toEqual([]);
-    expect(saved.presets.openai).toBeDefined();
+    expect(saved.presets.mgb).toBeDefined();
     expect(saved.presets['opencode-go'].orchestrator.model).toBe(
       'opencode-go/glm-5.1',
     );

@@ -14,6 +14,7 @@ const LIBRARIAN_PROMPT = `You are Librarian - a research specialist for codebase
 - context7: Official documentation lookup
 - grep_app: Search GitHub repositories
 - websearch: General web search for docs
+- arxiv: Request latest research publications from arxiv.org 
 
 **Behavior**:
 - Provide evidence-based answers with sources

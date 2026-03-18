@@ -60,7 +60,7 @@ OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=1 opencode
 
 ### Getting Started
 
-The installer generates both OpenAI and OpenCode Go presets, with OpenAI active by default. OpenAI uses `openai/gpt-5.5` for the higher-judgment agents and `openai/gpt-5.4-mini` for the faster scoped agents. To make OpenCode Go active during install, run `bunx oh-my-opencode-slim@latest install --preset=opencode-go` or change the default preset name in `~/.config/opencode/oh-my-opencode-slim.json` after installation.
+The installer generates MGB and OpenCode Go presets, with MGB active by default. MGB uses `mgb/gpt-5.5` across the built-in agents. To make OpenCode Go active during install, run `bunx oh-my-opencode-slim@latest install --preset=opencode-go` or change the default preset name in `~/.config/opencode/oh-my-opencode-slim.json` after installation.
 
 Then:
 
@@ -81,20 +81,21 @@ Then:
 > [!TIP]
 > It's **recommended** to understand how automatic delegation works. The **[Orchestrator prompt](https://github.com/alvinunreal/oh-my-opencode-slim/blob/master/src/agents/orchestrator.ts#L28)** contains the delegation rules, specialist routing logic, and the thresholds for when the main agent should hand work off to subagents. You can alway delegate manually by calling a subagent via: `@agentName <task>`
 
-The default generated configuration includes both `openai` and `opencode-go` presets.
+The default generated configuration includes both `mgb` and `opencode-go` presets.
 
 ```jsonc
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "openai",
+  "preset": "mgb",
   "presets": {
-    "openai": {
-      "orchestrator": { "model": "openai/gpt-5.5", "skills": ["*"], "mcps": ["*", "!context7"] },
-      "oracle": { "model": "openai/gpt-5.5", "variant": "high", "skills": ["simplify"], "mcps": [] },
-      "librarian": { "model": "openai/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": ["websearch", "context7", "grep_app"] },
-      "explorer": { "model": "openai/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": [] },
-      "designer": { "model": "openai/gpt-5.4-mini", "variant": "medium", "skills": [], "mcps": [] },
-      "fixer": { "model": "openai/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": [] }
+    "mgb": {
+      "orchestrator": { "model": "mgb/gpt-5.5", "skills": ["*"], "mcps": ["*", "!context7"] },
+      "oracle": { "model": "mgb/gpt-5.5", "variant": "high", "skills": ["simplify", "code-review"], "mcps": [] },
+      "librarian": { "model": "mgb/gpt-5.5", "variant": "low", "skills": ["api-documentation"], "mcps": ["websearch", "context7", "grep_app"] },
+      "explorer": { "model": "mgb/gpt-5.5", "variant": "low", "skills": ["agent-browser", "search", "codebase-search"], "mcps": [] },
+      "designer": { "model": "mgb/gpt-5.5", "variant": "medium", "skills": ["agent-browser", "frontend-design"], "mcps": [] },
+      "fixer": { "model": "mgb/gpt-5.5", "variant": "low", "skills": ["code-refactoring", "git-workflow"], "mcps": [] },
+      "tester": { "model": "mgb/gpt-5.5", "variant": "high", "skills": ["testing-strategies"], "mcps": [] }
     },
     "opencode-go": {
       "orchestrator": { "model": "opencode-go/glm-5.1", "skills": [ "*" ], "mcps": [ "*", "!context7" ] },
@@ -170,12 +171,12 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.5</code>
+      <b>Default Model:</b> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <b>Recommended Models:</b> <code>openai/gpt-5.5</code> <code>anthropic/claude-opus-4.6</code>
+      <b>Recommended Models:</b> <code>mgb/gpt-5.5</code> <code>anthropic/claude-opus-4.6</code>
     </td>
   </tr>
   <tr>
@@ -211,12 +212,12 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.4-mini</code>
+      <b>Default Model:</b> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <b>Recommended Models:</b> <code>cerebras/zai-glm-4.7</code> <code>fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo</code> <code>openai/gpt-5.4-mini</code>
+      <b>Recommended Models:</b> <code>cerebras/zai-glm-4.7</code> <code>fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo</code> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
@@ -252,12 +253,12 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.5 (high)</code>
+      <b>Default Model:</b> <code>mgb/gpt-5.5 (high)</code>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <b>Recommended Models:</b> <code>openai/gpt-5.5 (high)</code> <code>google/gemini-3.1-pro-preview (high)</code>
+      <b>Recommended Models:</b> <code>mgb/gpt-5.5 (high)</code> <code>google/gemini-3.1-pro-preview (high)</code>
     </td>
   </tr>
   <tr>
@@ -342,12 +343,12 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.4-mini</code>
+      <b>Default Model:</b> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <b>Recommended Models:</b> <code>cerebras/zai-glm-4.7</code> <code>fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo</code> <code>openai/gpt-5.4-mini</code>
+      <b>Recommended Models:</b> <code>cerebras/zai-glm-4.7</code> <code>fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo</code> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
@@ -383,7 +384,7 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.4-mini</code>
+      <b>Default Model:</b> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
@@ -424,12 +425,12 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.4-mini</code>
+      <b>Default Model:</b> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <b>Recommended Models:</b> <code>cerebras/zai-glm-4.7</code> <code>fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo</code> <code>openai/gpt-5.4-mini</code>
+      <b>Recommended Models:</b> <code>cerebras/zai-glm-4.7</code> <code>fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo</code> <code>mgb/gpt-5.5</code>
     </td>
   </tr>
   <tr>
@@ -471,12 +472,48 @@ If any agent fails to respond, check your provider authentication and config fil
   </tr>
   <tr>
     <td colspan="2">
-      <b>Default Model:</b> <code>openai/gpt-5.4-mini</code> — <i>configure a vision-capable model to enable</i>
+      <b>Default Model:</b> <code>mgb/gpt-5.5</code> — <i>configure a vision-capable model to enable</i>
     </td>
   </tr>
   <tr>
     <td colspan="2">
       <b>Model Guidance:</b> Choose a vision-capable model if you want the agent to read screenshots, images, PDFs, and other visual files.
+    </td>
+  </tr>
+</table>
+
+---
+
+### 07. Tester: The Keeper of Reliability
+
+<table>
+  <tr>
+    <td width="30%" align="center" valign="top">
+      <img src="img/tester.png" width="240" style="border-radius: 10px;">
+      <br><sub><i>The shield against regressions.</i></sub>
+    </td>
+    <td width="70%" valign="top">
+      The Tester was born from the first production outage caused by a missing test. When systems grew too complex for intuition alone, the Tester took an oath: no critical path goes unguarded, no bug leaves without a sentinel to prevent its return. They design layered defenses of unit, integration, and end-to-end tests, hunting edge cases and flakiness until the system holds under real-world pressure.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Role:</b> <code>Test strategy and execution</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Prompt:</b> <a href="src/agents/tester.ts"><code>tester.ts</code></a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Default Model:</b> <code>mgb/gpt-5.5</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>Recommended Models:</b> <code>mgb/gpt-5.5</code> <code>google/gemini-3.1-pro-preview</code>
     </td>
   </tr>
 </table>

@@ -13,6 +13,8 @@ export const SUBAGENT_NAMES = [
   'observer',
   'council',
   'councillor',
+  'council-master',
+  'tester',
 ] as const;
 
 export const ORCHESTRATOR_NAME = 'orchestrator' as const;
@@ -37,6 +39,7 @@ export const ORCHESTRATABLE_AGENTS = [
   'designer',
   'fixer',
   'observer',
+  'tester',
   'council',
 ] as const;
 
@@ -63,20 +66,24 @@ export const SUBAGENT_DELEGATION_RULES: Record<AgentName, readonly string[]> = {
   observer: [],
   council: [],
   councillor: [],
+  'council-master': [],
+  tester: [],
 };
 
 // Default models for each agent
 // orchestrator is undefined so its model is fully resolved at runtime via priority fallback
 export const DEFAULT_MODELS: Record<AgentName, string | undefined> = {
   orchestrator: undefined,
-  oracle: 'openai/gpt-5.5',
-  librarian: 'openai/gpt-5.4-mini',
-  explorer: 'openai/gpt-5.4-mini',
-  designer: 'openai/gpt-5.4-mini',
-  fixer: 'openai/gpt-5.4-mini',
-  observer: 'openai/gpt-5.4-mini',
-  council: 'openai/gpt-5.4-mini',
-  councillor: 'openai/gpt-5.4-mini',
+  oracle: 'mgb/gpt-5.5',
+  librarian: 'mgb/gpt-5.5',
+  explorer: 'mgb/gpt-5.5',
+  designer: 'mgb/gpt-5.5',
+  fixer: 'mgb/gpt-5.5',
+  observer: 'mgb/gpt-5.5',
+  tester: 'mgb/gpt-5.5',
+  council: 'mgb/gpt-5.5',
+  councillor: 'mgb/gpt-5.5',
+  'council-master': 'mgb/gpt-5.5',
 };
 
 // Polling configuration

@@ -9,13 +9,14 @@ describe('providers', () => {
     expect(keys.sort()).toEqual([
       'copilot',
       'kimi',
+      'mgb',
       'openai',
       'opencode-go',
       'zai-plan',
     ]);
   });
 
-  test('generateLiteConfig defaults to openai and includes generated presets', () => {
+  test('generateLiteConfig defaults to mgb and includes generated presets', () => {
     const config = generateLiteConfig({
       hasTmux: false,
       installCustomSkills: false,
@@ -25,38 +26,38 @@ describe('providers', () => {
     expect(config.$schema).toBe(
       'https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json',
     );
-    expect(config.preset).toBe('openai');
+    expect(config.preset).toBe('mgb');
     expect(config.disabled_agents).toBeUndefined();
     expect((config.presets as any)['opencode-go']).toBeDefined();
     expect((config.presets as any)['opencode-go'].observer.model).toBe(
       'opencode-go/kimi-k2.6',
     );
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     expect(agents).toBeDefined();
-    expect(agents.orchestrator.model).toBe('openai/gpt-5.5');
+    expect(agents.orchestrator.model).toBe('mgb/gpt-5.5');
     expect(agents.orchestrator.variant).toBeUndefined();
-    expect(agents.fixer.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.fixer.model).toBe('mgb/gpt-5.5');
     expect(agents.fixer.variant).toBe('low');
   });
 
-  test('generateLiteConfig uses correct OpenAI models', () => {
+  test('generateLiteConfig uses correct MGB models', () => {
     const config = generateLiteConfig({
       hasTmux: false,
       installCustomSkills: false,
       reset: false,
     });
 
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     expect(agents.orchestrator.model).toBe(
-      MODEL_MAPPINGS.openai.orchestrator.model,
+      MODEL_MAPPINGS.mgb.orchestrator.model,
     );
-    expect(agents.oracle.model).toBe('openai/gpt-5.5');
+    expect(agents.oracle.model).toBe('mgb/gpt-5.5');
     expect(agents.oracle.variant).toBe('high');
-    expect(agents.librarian.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.librarian.model).toBe('mgb/gpt-5.5');
     expect(agents.librarian.variant).toBe('low');
-    expect(agents.explorer.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.explorer.model).toBe('mgb/gpt-5.5');
     expect(agents.explorer.variant).toBe('low');
-    expect(agents.designer.model).toBe('openai/gpt-5.4-mini');
+    expect(agents.designer.model).toBe('mgb/gpt-5.5');
     expect(agents.designer.variant).toBe('medium');
   });
 
@@ -70,7 +71,7 @@ describe('providers', () => {
 
     expect(config.preset).toBe('opencode-go');
     expect(config.disabled_agents).toEqual([]);
-    expect((config.presets as any).openai).toBeDefined();
+    expect((config.presets as any).mgb).toBeDefined();
     const agents = (config.presets as any)['opencode-go'];
     expect(agents).toBeDefined();
     expect(agents.orchestrator.model).toBe('opencode-go/glm-5.1');
@@ -138,7 +139,7 @@ describe('providers', () => {
       reset: false,
     });
 
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     // Orchestrator should always have '*'
     expect(agents.orchestrator.skills).toEqual(['*']);
 
@@ -148,14 +149,26 @@ describe('providers', () => {
     // Orchestrator should implicitly cover bundled codemap via '*'
     expect(agents.orchestrator.skills).toContain('*');
 
-    // Designer should have no bundled skills by default
-    expect(agents.designer.skills).toEqual([]);
+    // Explorer should have search and code navigation skills
+    expect(agents.explorer.skills).toContain('agent-browser');
+    expect(agents.explorer.skills).toContain('browser-use');
+    expect(agents.explorer.skills).toContain('search');
+    expect(agents.explorer.skills).toContain('codebase-search');
 
-    // Explorer should have no bundled skills by default
-    expect(agents.explorer.skills).toEqual([]);
+    // Designer should have browser + design-focused skills
+    expect(agents.designer.skills).toContain('agent-browser');
+    expect(agents.designer.skills).toContain('web-design-guidelines');
+    expect(agents.designer.skills).toContain('frontend-design');
+    expect(agents.designer.skills).toContain('ui-ux-pro-max');
+    expect(agents.designer.skills).toContain('polish');
+    expect(agents.designer.skills).toContain('responsive-design');
 
-    // Fixer should have no bundled skills by default
-    expect(agents.fixer.skills).toEqual([]);
+    // Fixer should have implementation and workflow skills
+    expect(agents.fixer.skills).toContain('copilot-coding-agent');
+    expect(agents.fixer.skills).toContain('task-planning');
+    expect(agents.fixer.skills).toContain('code-refactoring');
+    expect(agents.fixer.skills).toContain('deployment-automation');
+    expect(agents.fixer.skills).toContain('git-workflow');
   });
 
   test('generateLiteConfig includes mcps field', () => {
@@ -165,21 +178,21 @@ describe('providers', () => {
       reset: false,
     });
 
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     expect(agents.orchestrator.mcps).toBeDefined();
     expect(Array.isArray(agents.orchestrator.mcps)).toBe(true);
     expect(agents.librarian.mcps).toBeDefined();
     expect(Array.isArray(agents.librarian.mcps)).toBe(true);
   });
 
-  test('generateLiteConfig openai includes correct mcps', () => {
+  test('generateLiteConfig mgb includes correct mcps', () => {
     const config = generateLiteConfig({
       hasTmux: false,
       installCustomSkills: false,
       reset: false,
     });
 
-    const agents = (config.presets as any).openai;
+    const agents = (config.presets as any).mgb;
     expect(agents.orchestrator.mcps).toEqual(['*', '!context7']);
     expect(agents.librarian.mcps).toContain('websearch');
     expect(agents.librarian.mcps).toContain('context7');
