@@ -59,7 +59,7 @@ export function generateLiteConfig(
         orchestrator: {
           model: 'mgb/gpt-5.3-codex',
           skills: ['*'],
-          mcps: ['websearch'],
+          mcps: ['*'],
         },
         oracle: {
           model: 'mgb/gpt-5.3-codex',
