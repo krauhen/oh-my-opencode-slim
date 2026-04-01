@@ -38,6 +38,8 @@ describe('providers', () => {
     expect(agents.orchestrator.variant).toBeUndefined();
     expect(agents.fixer.model).toBe('mgb/gpt-5.5');
     expect(agents.fixer.variant).toBe('low');
+    expect(agents['ticket-planner'].model).toBe('mgb/gpt-5.5');
+    expect(agents['ticket-planner'].variant).toBe('low');
   });
 
   test('generateLiteConfig uses correct MGB models', () => {
@@ -85,6 +87,7 @@ describe('providers', () => {
     expect(agents.fixer.model).toBe('opencode-go/deepseek-v4-flash');
     expect(agents.fixer.variant).toBe('high');
     expect(agents.observer.model).toBe('opencode-go/kimi-k2.6');
+    expect(agents['ticket-planner'].model).toBe('opencode-go/minimax-m2.7');
   });
 
   test('generateLiteConfig rejects unsupported preset', () => {
@@ -169,6 +172,13 @@ describe('providers', () => {
     expect(agents.fixer.skills).toContain('code-refactoring');
     expect(agents.fixer.skills).toContain('deployment-automation');
     expect(agents.fixer.skills).toContain('git-workflow');
+
+    // Ticket planner should have planning/documentation/search skills
+    expect(agents['ticket-planner'].skills).toContain('search');
+    expect(agents['ticket-planner'].skills).toContain('codebase-search');
+    expect(agents['ticket-planner'].skills).toContain('api-documentation');
+    expect(agents['ticket-planner'].skills).toContain('technical-writing');
+    expect(agents['ticket-planner'].skills).toContain('task-planning');
   });
 
   test('generateLiteConfig includes mcps field', () => {

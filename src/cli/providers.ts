@@ -19,7 +19,9 @@ export const MODEL_MAPPINGS = {
     designer: { model: 'mgb/gpt-5.5', variant: 'medium' },
     fixer: { model: 'mgb/gpt-5.5', variant: 'low' },
     observer: { model: 'mgb/gpt-5.5' },
+    'ticket-planner': { model: 'mgb/gpt-5.5', variant: 'low' },
     tester: { model: 'mgb/gpt-5.5', variant: 'high' },
+    councillor: { model: 'mgb/gpt-5.5' },
     'council-master': { model: 'mgb/gpt-5.5' },
   },
   openai: {
@@ -29,6 +31,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'openai/gpt-5.4-mini', variant: 'low' },
     designer: { model: 'openai/gpt-5.4-mini', variant: 'medium' },
     fixer: { model: 'openai/gpt-5.4-mini', variant: 'low' },
+    'ticket-planner': { model: 'openai/gpt-5.4-mini', variant: 'low' },
     tester: { model: 'openai/gpt-5.4-mini', variant: 'high' },
   },
   kimi: {
@@ -38,6 +41,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'kimi-for-coding/k2p5', variant: 'low' },
     designer: { model: 'kimi-for-coding/k2p5', variant: 'medium' },
     fixer: { model: 'kimi-for-coding/k2p5', variant: 'low' },
+    'ticket-planner': { model: 'kimi-for-coding/k2p5', variant: 'low' },
     tester: { model: 'kimi-for-coding/k2p5', variant: 'high' },
   },
   copilot: {
@@ -50,6 +54,10 @@ export const MODEL_MAPPINGS = {
       variant: 'medium',
     },
     fixer: { model: 'github-copilot/claude-sonnet-4.6', variant: 'low' },
+    'ticket-planner': {
+      model: 'github-copilot/grok-code-fast-1',
+      variant: 'low',
+    },
     tester: { model: 'github-copilot/claude-sonnet-4.6', variant: 'high' },
   },
   'zai-plan': {
@@ -59,6 +67,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'zai-coding-plan/glm-5', variant: 'low' },
     designer: { model: 'zai-coding-plan/glm-5', variant: 'medium' },
     fixer: { model: 'zai-coding-plan/glm-5', variant: 'low' },
+    'ticket-planner': { model: 'zai-coding-plan/glm-5', variant: 'low' },
     tester: { model: 'zai-coding-plan/glm-5', variant: 'high' },
   },
   'opencode-go': {
@@ -70,6 +79,7 @@ export const MODEL_MAPPINGS = {
     designer: { model: 'opencode-go/kimi-k2.6', variant: 'medium' },
     fixer: { model: 'opencode-go/deepseek-v4-flash', variant: 'high' },
     observer: { model: 'opencode-go/kimi-k2.6' },
+    'ticket-planner': { model: 'opencode-go/minimax-m2.7' },
   },
 } as const;
 

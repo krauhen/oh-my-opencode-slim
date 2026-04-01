@@ -29,6 +29,7 @@ import {
   resolvePrompt,
 } from './orchestrator';
 import { createTesterAgent } from './tester';
+import { createTicketPlannerAgent } from './ticket-planner';
 
 export type { AgentDefinition } from './orchestrator';
 
@@ -211,6 +212,7 @@ const SUBAGENT_FACTORIES: Record<SubagentName, AgentFactory> = {
   designer: createDesignerAgent,
   fixer: createFixerAgent,
   observer: createObserverAgent,
+  'ticket-planner': createTicketPlannerAgent,
   council: createCouncilAgent,
   councillor: createCouncillorAgent,
   'council-master': createCouncilMasterAgent,

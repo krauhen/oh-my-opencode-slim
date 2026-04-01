@@ -63,14 +63,14 @@ export const RECOMMENDED_SKILLS: RecommendedSkill[] = [
     name: 'search',
     repo: 'https://github.com/tavily-ai/skills',
     skillName: 'search',
-    allowedAgents: ['explorer', 'librarian', 'orchestrator'],
+    allowedAgents: ['explorer', 'librarian', 'ticket-planner', 'orchestrator'],
     description: 'High-quality web search and retrieval',
   },
   {
     name: 'codebase-search',
     repo: 'https://github.com/supercent-io/skills-template',
     skillName: 'codebase-search',
-    allowedAgents: ['explorer', 'fixer', 'orchestrator'],
+    allowedAgents: ['explorer', 'fixer', 'ticket-planner', 'orchestrator'],
     description: 'Deep codebase navigation and symbol search',
   },
   // Librarian-focused skills
@@ -78,14 +78,14 @@ export const RECOMMENDED_SKILLS: RecommendedSkill[] = [
     name: 'api-documentation',
     repo: 'https://github.com/supercent-io/skills-template',
     skillName: 'api-documentation',
-    allowedAgents: ['librarian', 'oracle', 'orchestrator'],
+    allowedAgents: ['librarian', 'oracle', 'ticket-planner', 'orchestrator'],
     description: 'Structured API documentation and examples',
   },
   {
     name: 'technical-writing',
     repo: 'https://github.com/supercent-io/skills-template',
     skillName: 'technical-writing',
-    allowedAgents: ['librarian', 'oracle', 'orchestrator'],
+    allowedAgents: ['librarian', 'oracle', 'ticket-planner', 'orchestrator'],
     description: 'Clear technical explanations and docs',
   },
   {
@@ -189,7 +189,7 @@ export const RECOMMENDED_SKILLS: RecommendedSkill[] = [
     name: 'task-planning',
     repo: 'https://github.com/supercent-io/skills-template',
     skillName: 'task-planning',
-    allowedAgents: ['fixer', 'orchestrator'],
+    allowedAgents: ['fixer', 'ticket-planner', 'orchestrator'],
     description: 'Structured breakdown of coding tasks and substeps',
   },
   {
@@ -289,6 +289,16 @@ export function getSkillPermissionsForAgent(
 
   // Apply permissions from bundled custom skills
   for (const skill of CUSTOM_SKILLS) {
+    const isAllowed =
+      skill.allowedAgents.includes('*') ||
+      skill.allowedAgents.includes(agentName);
+    if (isAllowed) {
+      permissions[skill.name] = 'allow';
+    }
+  }
+
+  // Apply permissions from recommended external skills.
+  for (const skill of RECOMMENDED_SKILLS) {
     const isAllowed =
       skill.allowedAgents.includes('*') ||
       skill.allowedAgents.includes(agentName);
