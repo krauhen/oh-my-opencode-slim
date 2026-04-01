@@ -22,12 +22,12 @@ describe('createPhaseReminderHook', () => {
     expect(output.messages[0].parts[1].text).toBe(PHASE_REMINDER);
   });
 
-  test('skips non-orchestrator sessions', async () => {
+  test('skips non-user-facing specialist sessions', async () => {
     const hook = createPhaseReminderHook();
     const output = {
       messages: [
         {
-          info: { role: 'user', agent: 'explorer' },
+          info: { role: 'user', agent: 'councillor' },
           parts: [{ type: 'text', text: 'hello' }],
         },
       ],

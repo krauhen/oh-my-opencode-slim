@@ -24,7 +24,8 @@ describe('delegate-task-retry hook', () => {
     await hook['tool.execute.after']({ tool: 'task' }, output);
 
     expect(output.output).toContain('background_agent_not_allowed');
-    expect(output.output).toContain('Available: explorer, fixer');
+    expect(output.output).toContain('Allowed agent(s): explorer, fixer');
+    expect(output.output).toContain('agent="explorer"');
   });
 
   test('does nothing for unrelated tool output', async () => {

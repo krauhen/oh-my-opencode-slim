@@ -2,7 +2,7 @@
 
 ## Responsibility
 
-Keep orchestrator guidance aligned over long turns by prepending a phase reminder to the latest user message text before the next LLM request.
+Keep orchestrator and user-facing specialist guidance aligned over long turns by appending a phase reminder text part to the latest user message before the next LLM request.
 
 ## Design
 
@@ -10,18 +10,18 @@ Keep orchestrator guidance aligned over long turns by prepending a phase reminde
 - `createPhaseReminderHook()` returns a single `experimental.chat.messages.transform` handler.
 - Message filtering is role/agent-aware:
   - locates the latest `'user'` role in `output.messages`,
-  - only mutates if no explicit agent or `agent === 'orchestrator'`,
+  - only mutates if there is no explicit agent or the agent is in the reminder allowlist,
   - no-op for internal control messages containing `SLIM_INTERNAL_INITIATOR_MARKER`.
-- Mutation target is the first `text` part in that message; replacement is an in-place prefix.
+- Mutation target is the message parts array; reminder text is appended as a separate text part to avoid leaking into UI/history.
 - Uses `SLIM_INTERNAL_INITIATOR_MARKER` from `../../utils` to avoid feedback loops.
 
 ## Flow
 
 1. On transform, scan backward through `messages` for last `info.role === 'user'`.
-2. If agent is non-orchestrator, return.
+2. If agent is not in the reminder allowlist, return.
 3. Locate first part where `type === 'text'`.
 4. If marker exists, return.
-5. Prefix `part.text` with `PHASE_REMINDER + '\n\n---\n\n'`.
+5. Append `PHASE_REMINDER` as a separate text part.
 
 ## Integration
 

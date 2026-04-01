@@ -1076,7 +1076,6 @@ const OhMyOpenCodeLite: Plugin = async (ctx) => {
           }>;
         }>;
       };
-
       for (const message of typedOutput.messages) {
         if (message.info.role !== 'user') {
           continue;
