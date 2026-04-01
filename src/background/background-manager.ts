@@ -16,6 +16,7 @@
 import type { PluginInput } from '@opencode-ai/plugin';
 import type { BackgroundTaskConfig, PluginConfig } from '../config';
 import {
+  BACKGROUND_TASK_LAUNCH_PREAMBLE,
   FALLBACK_FAILOVER_TIMEOUT_MS,
   SUBAGENT_DELEGATION_RULES,
 } from '../config';
@@ -337,10 +338,11 @@ export class BackgroundTaskManager {
       // Send prompt
       const promptQuery: Record<string, string> = { directory: this.directory };
       const resolvedVariant = resolveAgentVariant(this.config, task.agent);
+      const delegatedPrompt = `${BACKGROUND_TASK_LAUNCH_PREAMBLE}\n\n---\n\nTask prompt:\n${task.prompt}`;
       const basePromptBody = applyAgentVariant(resolvedVariant, {
         agent: task.agent,
         tools: toolPermissions,
-        parts: [{ type: 'text' as const, text: task.prompt }],
+        parts: [{ type: 'text' as const, text: delegatedPrompt }],
       } as PromptBody) as unknown as PromptBody;
 
       const fallbackEnabled = this.config?.fallback?.enabled ?? true;

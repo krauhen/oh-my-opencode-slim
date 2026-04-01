@@ -35,13 +35,19 @@ Flow: launch → wait for automatic notification when complete.
 Key behaviors:
 - Fire-and-forget: returns task_id in ~1ms
 - Parallel: up to 10 concurrent tasks
-- Auto-notify: parent session receives result when task completes`,
+- Auto-notify: parent session receives result when task completes
+- Session isolation: child task does NOT inherit parent chat history/context
+- Continuity key: task_id is required to resume/track the same task`,
 
     args: {
       description: z
         .string()
         .describe('Short description of the task (5-10 words)'),
-      prompt: z.string().describe('The task prompt for the agent'),
+      prompt: z
+        .string()
+        .describe(
+          'Task prompt with required sections: Goal | Scope(paths) | Constraints | Deliverable | Done-when. Include exact file paths/references and explicit decisions needed.',
+        ),
       agent: z.string().describe(`Agent to use: ${agentNames}`),
     },
     async execute(args, toolContext) {

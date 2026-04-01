@@ -27,7 +27,7 @@ export type AgentName = (typeof ALL_AGENT_NAMES)[number];
 // Subagent delegation rules: which agents can spawn which subagents
 // orchestrator: can spawn all subagents (full delegation)
 // fixer: leaf node — prompt forbids delegation; use grep/glob for lookups
-// designer: can spawn explorer (for research during design)
+// designer: cannot spawn any subagents (leaf node)
 // explorer/librarian/oracle: cannot spawn any subagents (leaf nodes)
 // Unknown agent types not listed here default to explorer-only access
 // Which agents each agent type can spawn via background_task tool.
@@ -87,9 +87,23 @@ export const FALLBACK_FAILOVER_TIMEOUT_MS = 15_000;
 export const DEFAULT_MAX_SUBAGENT_DEPTH = 3;
 
 // Workflow reminders
-export const PHASE_REMINDER_TEXT = `Recall Workflow Rules:
-Understand → build the best path (delegated based on Agent rules, split and parallelized as much as possible) → execute → verify.
-If delegating, launch the specialist in the same turn you mention it.`;
+export const PHASE_REMINDER_TEXT = `Fresh-session rule: treat each invocation as a fresh child session; rely only on current prompt/tool context unless resumed with task_id.
+Handoff rule: delegation handoffs must be explicit and complete (Goal, Scope(paths), Constraints, Deliverable, Done-when) with exact paths/decisions.`;
+
+export const BACKGROUND_TASK_LAUNCH_PREAMBLE = `Execution protocol:
+- Treat this as a fresh child session. Do not assume parent chat details unless explicitly included here or resumed with task_id.
+- The parent receives only your reduced final artifact, not your full internal transcript.
+- Put all critical findings, decisions, and open questions in your final response.
+- Use the provided task prompt as source of truth, then verify by reading/searching the repo with available tools.
+- Expect and follow a structured handoff skeleton:
+  - Goal:
+  - Scope(paths):
+  - Constraints:
+  - Deliverable:
+  - Done-when:
+- If context is missing, STOP and ask only for the minimum required artifacts as explicit items (exact file paths, exact commands, or specific decisions).
+- Do not proceed with assumptions when blocked by missing context.
+- Output contract: concise summary, exact file paths touched, key decisions, and open questions.`;
 
 // Tmux pane spawn delay (ms) — gives TmuxSessionManager time to create pane
 export const TMUX_SPAWN_DELAY_MS = 500;

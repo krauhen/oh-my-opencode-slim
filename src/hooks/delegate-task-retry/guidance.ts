@@ -10,6 +10,15 @@ function extractAvailableList(output: string): string | null {
   return null;
 }
 
+function firstAvailableAgent(available: string | null): string {
+  if (!available) return 'explorer';
+  const first = available
+    .split(',')
+    .map((s) => s.trim())
+    .find(Boolean);
+  return first || 'explorer';
+}
+
 export function buildRetryGuidance(errorInfo: DetectedError): string {
   const pattern = DELEGATE_TASK_ERROR_PATTERNS.find(
     (p) => p.errorType === errorInfo.errorType,
@@ -20,21 +29,30 @@ export function buildRetryGuidance(errorInfo: DetectedError): string {
   }
 
   const available = extractAvailableList(errorInfo.originalOutput);
+  const validAgent = firstAvailableAgent(available);
 
   const lines = [
     '',
     '[delegate-task retry suggestion]',
     `Error type: ${errorInfo.errorType}`,
-    `Fix: ${pattern.fixHint}`,
+    `Why failed: ${pattern.fixHint}`,
   ];
 
   if (available) {
-    lines.push(`Available: ${available}`);
+    lines.push(`Allowed agent(s): ${available}`);
   }
 
   lines.push(
-    'Retry now with corrected parameters. Example:',
-    'task(description="...", prompt="...", category="unspecified-low", run_in_background=false, load_skills=[])',
+    '',
+    '[correction block]',
+    `- allowed_agent: ${validAgent}`,
+    `- why_failed: ${errorInfo.errorType}`,
+    '- valid_next_call:',
+    `  background_task(description="...", prompt="Goal:\n...\n\nScope(paths):\n- exact/path.ts\n\nConstraints:\n- ...\n\nDeliverable:\n...\n\nDone-when:\n- ...", agent="${validAgent}")`,
+    '',
+    'Reminder: delegated task sessions are fresh sessions; include required context explicitly.',
+    'Alternative valid next call:',
+    'task(description="...", prompt="Goal:\n...\n\nScope(paths):\n- exact/path.ts\n\nConstraints:\n- ...\n\nDeliverable:\n...\n\nDone-when:\n- ...", category="unspecified-low", run_in_background=false, load_skills=[])',
   );
 
   return lines.join('\n');

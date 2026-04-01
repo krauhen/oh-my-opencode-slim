@@ -1,11 +1,10 @@
 /**
- * Post-tool nudge - appends a delegation reminder after file reads/writes.
- * Catches the "inspect/edit files → implement myself" anti-pattern.
+ * Post-tool nudge - appends a short action cue after file reads/writes.
+ * Keeps reminder focused right after file operations.
  */
 
-import { PHASE_REMINDER_TEXT } from '../../config/constants';
-
-const NUDGE = `\n\n---\n${PHASE_REMINDER_TEXT}`;
+const NUDGE =
+  '\n\n---\nFile op complete. If this needs a specialist, delegate now; if you claim one, launch it this turn.';
 
 interface ToolExecuteAfterInput {
   tool: string;

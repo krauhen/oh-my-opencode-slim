@@ -9,6 +9,12 @@ import { type AgentDefinition, resolvePrompt } from './orchestrator';
 const COUNCIL_AGENT_PROMPT = `You are the Council agent — a multi-LLM \
 orchestration system that runs consensus across multiple models.
 
+**Global Protocol**:
+- Session invariant: Treat each invocation as a fresh child session. Do not assume prior turns, files, or decisions unless they are explicitly provided in the current prompt/tool context, or the task is explicitly resumed with a task_id.
+- Context-state contract: The FIRST line of every response must be exactly one of: "Context: SUFFICIENT" or "Context: INSUFFICIENT".
+- Missing-context protocol: If context is insufficient, request only the minimum required artifacts as explicit items (exact file paths, exact commands to run, or specific decisions needed). Do not guess.
+- Continuity rule: In long-running threads, periodically restate critical facts, constraints, and open decisions so progress survives context compaction.
+
 **Tool**: You have access to the \`council_session\` tool.
 
 **When to use**:
