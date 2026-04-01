@@ -8,6 +8,7 @@ const FALLBACK_AGENT_NAMES = [
   'explorer',
   'librarian',
   'fixer',
+  'ticket-planner',
   'tester',
 ] as const;
 
@@ -18,6 +19,7 @@ const MANUAL_AGENT_NAMES = [
   'explorer',
   'librarian',
   'fixer',
+  'ticket-planner',
   'tester',
 ] as const;
 
@@ -58,6 +60,7 @@ export const ManualPlanSchema = z
     explorer: ManualAgentPlanSchema,
     librarian: ManualAgentPlanSchema,
     fixer: ManualAgentPlanSchema,
+    'ticket-planner': ManualAgentPlanSchema.optional(),
     tester: ManualAgentPlanSchema.optional(),
   })
   .strict();
@@ -76,6 +79,7 @@ const FallbackChainsSchema = z
     explorer: AgentModelChainSchema.optional(),
     librarian: AgentModelChainSchema.optional(),
     fixer: AgentModelChainSchema.optional(),
+    'ticket-planner': AgentModelChainSchema.optional(),
     tester: AgentModelChainSchema.optional(),
   })
   .catchall(AgentModelChainSchema);

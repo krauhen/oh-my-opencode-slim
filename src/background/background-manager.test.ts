@@ -1205,6 +1205,9 @@ describe('BackgroundTaskManager', () => {
       expect(manager.isAgentAllowed(orchestratorSessionId, 'oracle')).toBe(
         true,
       );
+      expect(
+        manager.isAgentAllowed(orchestratorSessionId, 'ticket-planner'),
+      ).toBe(true);
     });
 
     test('isAgentAllowed returns false for invalid delegations', async () => {
@@ -1281,6 +1284,9 @@ describe('BackgroundTaskManager', () => {
       expect(manager.isAgentAllowed('unknown-session', 'designer')).toBe(true);
       expect(manager.isAgentAllowed('unknown-session', 'librarian')).toBe(true);
       expect(manager.isAgentAllowed('unknown-session', 'oracle')).toBe(true);
+      expect(manager.isAgentAllowed('unknown-session', 'ticket-planner')).toBe(
+        true,
+      );
     });
 
     test('unknown agent type defaults to explorer-only delegation', async () => {
@@ -1562,8 +1568,9 @@ describe('BackgroundTaskManager', () => {
         'oracle',
         'designer',
         'fixer',
-        'council',
+        'ticket-planner',
         'tester',
+        'council',
       ]);
 
       // Fixer -> empty (leaf node)
@@ -1623,8 +1630,9 @@ describe('BackgroundTaskManager', () => {
         'oracle',
         'designer',
         'fixer',
-        'council',
+        'ticket-planner',
         'tester',
+        'council',
       ]);
     });
   });

@@ -20,10 +20,12 @@ describe('providers', () => {
     expect(config.preset).toBe('mgb');
     const agents = (config.presets as any).mgb;
     expect(agents).toBeDefined();
-    expect(agents.orchestrator.model).toBe('mgb/gpt-5.1');
+    expect(agents.orchestrator.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.orchestrator.variant).toBeUndefined();
     expect(agents.fixer.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.fixer.variant).toBe('low');
+    expect(agents['ticket-planner'].model).toBe('mgb/gpt-5.3-codex');
+    expect(agents['ticket-planner'].variant).toBe('low');
   });
 
   test('generateLiteConfig uses correct MGB models', () => {
@@ -35,8 +37,8 @@ describe('providers', () => {
     });
 
     const agents = (config.presets as any).mgb;
-    expect(agents.orchestrator.model).toBe('mgb/gpt-5.1');
-    expect(agents.oracle.model).toBe('mgb/gpt-5.1');
+    expect(agents.orchestrator.model).toBe('mgb/gpt-5.3-codex');
+    expect(agents.oracle.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.oracle.variant).toBe('high');
     expect(agents.librarian.model).toBe('mgb/gpt-5.3-codex');
     expect(agents.librarian.variant).toBe('low');
@@ -96,6 +98,15 @@ describe('providers', () => {
       'code-refactoring',
       'deployment-automation',
       'git-workflow',
+    ]);
+
+    // Ticket planner should have planning/documentation/search skills
+    expect(agents['ticket-planner'].skills).toEqual([
+      'search',
+      'codebase-search',
+      'api-documentation',
+      'technical-writing',
+      'task-planning',
     ]);
   });
 

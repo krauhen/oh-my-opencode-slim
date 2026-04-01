@@ -8,6 +8,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'openai/gpt-5.4-mini', variant: 'low' },
     designer: { model: 'openai/gpt-5.4-mini', variant: 'medium' },
     fixer: { model: 'openai/gpt-5.4-mini', variant: 'low' },
+    'ticket-planner': { model: 'openai/gpt-5.4-mini', variant: 'low' },
     tester: { model: 'openai/gpt-5.4-mini', variant: 'high' },
   },
   kimi: {
@@ -17,6 +18,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'kimi-for-coding/k2p5', variant: 'low' },
     designer: { model: 'kimi-for-coding/k2p5', variant: 'medium' },
     fixer: { model: 'kimi-for-coding/k2p5', variant: 'low' },
+    'ticket-planner': { model: 'kimi-for-coding/k2p5', variant: 'low' },
     tester: { model: 'kimi-for-coding/k2p5', variant: 'high' },
   },
   copilot: {
@@ -29,6 +31,10 @@ export const MODEL_MAPPINGS = {
       variant: 'medium',
     },
     fixer: { model: 'github-copilot/claude-sonnet-4.6', variant: 'low' },
+    'ticket-planner': {
+      model: 'github-copilot/grok-code-fast-1',
+      variant: 'low',
+    },
     tester: { model: 'github-copilot/claude-sonnet-4.6', variant: 'high' },
   },
   'zai-plan': {
@@ -38,6 +44,7 @@ export const MODEL_MAPPINGS = {
     explorer: { model: 'zai-coding-plan/glm-5', variant: 'low' },
     designer: { model: 'zai-coding-plan/glm-5', variant: 'medium' },
     fixer: { model: 'zai-coding-plan/glm-5', variant: 'low' },
+    'ticket-planner': { model: 'zai-coding-plan/glm-5', variant: 'low' },
     tester: { model: 'zai-coding-plan/glm-5', variant: 'high' },
   },
 } as const;
@@ -105,6 +112,18 @@ export function generateLiteConfig(
             'code-refactoring',
             'deployment-automation',
             'git-workflow',
+          ],
+          mcps: [],
+        },
+        'ticket-planner': {
+          model: 'mgb/gpt-5.3-codex',
+          variant: 'low',
+          skills: [
+            'search',
+            'codebase-search',
+            'api-documentation',
+            'technical-writing',
+            'task-planning',
           ],
           mcps: [],
         },

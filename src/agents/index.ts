@@ -20,6 +20,7 @@ import { createLibrarianAgent } from './librarian';
 import { createOracleAgent } from './oracle';
 import { type AgentDefinition, createOrchestratorAgent } from './orchestrator';
 import { createTesterAgent } from './tester';
+import { createTicketPlannerAgent } from './ticket-planner';
 
 export type { AgentDefinition } from './orchestrator';
 
@@ -109,6 +110,7 @@ const SUBAGENT_FACTORIES: Record<SubagentName, AgentFactory> = {
   oracle: createOracleAgent,
   designer: createDesignerAgent,
   fixer: createFixerAgent,
+  'ticket-planner': createTicketPlannerAgent,
   council: createCouncilAgent,
   councillor: createCouncillorAgent,
   'council-master': createCouncilMasterAgent,
