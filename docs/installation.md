@@ -34,7 +34,7 @@ The installer supports the following options:
 | Option | Description |
 |--------|-------------|
 | `--skills=yes|no` | Install bundled skills (default: yes) |
-| `--preset=<name>` | Active generated config preset: `openai` or `opencode-go` (default: `openai`) |
+| `--preset=<name>` | Active generated config preset: `mgb` or `opencode-go` (default: `mgb`) |
 | `--no-tui` | Non-interactive mode |
 | `--dry-run` | Simulate install without writing files |
 | `--reset` | Force overwrite of existing configuration |
@@ -47,6 +47,9 @@ By default, the installer is non-destructive. If an `oh-my-opencode-slim.json` c
 [i] Configuration already exists at ~/.config/opencode/oh-my-opencode-slim.json. Use --reset to overwrite.
 ```
 
+Interactive installs ask before overwriting existing generated configuration;
+non-interactive installs skip unless `--reset` is provided.
+
 To force overwrite of your existing configuration, use the `--reset` flag:
 
 ```bash
@@ -57,7 +60,7 @@ bunx oh-my-opencode-slim@latest install --reset
 
 ### After Installation
 
-The installer generates both OpenAI and OpenCode Go presets, with OpenAI active by default (using `gpt-5.5` and `gpt-5.4-mini` models). To make OpenCode Go active during install, run `bunx oh-my-opencode-slim@latest install --preset=opencode-go`. That preset uses GLM-5.1 for Orchestrator, so the installer also enables Observer with `opencode-go/kimi-k2.6` for visual analysis. To switch providers later or build a mixed setup, use **[Configuration Reference](configuration.md)** for the full option reference and the preset docs for copyable examples.
+The installer generates both MGB and OpenCode Go presets, with MGB active by default (using `mgb/gpt-5.5` models). To make OpenCode Go active during install, run `bunx oh-my-opencode-slim@latest install --preset=opencode-go`. That preset uses GLM-5.1 for Orchestrator, so the installer also enables Observer with `opencode-go/kimi-k2.6` for visual analysis. To switch providers later or build a mixed setup, use **[Configuration Reference](configuration.md)** for the full option reference and the preset docs for copyable examples.
 
 Then:
 
@@ -106,7 +109,7 @@ If not installed, direct the user to https://opencode.ai/docs first.
 
 ### Step 2: Run the Installer
 
-The installer generates OpenAI and OpenCode Go presets, with OpenAI active by default:
+The installer generates MGB and OpenCode Go presets, with MGB active by default:
 
 ```bash
 bunx oh-my-opencode-slim@latest install --no-tui --skills=yes

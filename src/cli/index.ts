@@ -47,7 +47,7 @@ Usage:
 
 Options:
   --skills=yes|no        Install bundled skills (default: yes)
-  --preset=<name>        Active generated config preset (default: openai)
+  --preset=<name>        Active generated config preset (default: mgb)
   --no-tui               Non-interactive mode
   --dry-run              Simulate install without writing files
   --reset                Force overwrite of existing configuration
@@ -58,8 +58,8 @@ Doctor options:
 
 Available presets: ${getGeneratedPresetNames().join(', ')}
 
-The installer generates OpenAI and OpenCode Go presets by default.
-OpenAI is active unless --preset selects another generated preset.
+The installer generates MGB and OpenCode Go presets by default.
+MGB is active unless --preset selects another generated preset.
 For the full config reference, see docs/configuration.md.
 
 Examples:

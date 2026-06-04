@@ -104,6 +104,28 @@ async function askToStarRepo(config: InstallConfig): Promise<void> {
   }
 }
 
+export async function shouldOverwriteExistingConfig(
+  config: InstallConfig,
+  configPath: string,
+  confirmOverwrite = confirm,
+): Promise<boolean> {
+  if (config.reset) return true;
+
+  if (!config.tui || !process.stdin.isTTY) {
+    printInfo(
+      `Configuration already exists at ${configPath}. ` +
+        'Use --reset to overwrite.',
+    );
+    return false;
+  }
+
+  return confirmOverwrite(
+    `Configuration already exists at ${configPath}. ` +
+      'Overwrite with default settings?',
+    false,
+  );
+}
+
 async function checkOpenCodeInstalled(): Promise<{
   ok: boolean;
   version?: string;
@@ -222,12 +244,11 @@ async function runInstall(config: InstallConfig): Promise<number> {
     const configPath = getExistingLiteConfigPath();
     const configExists = existsSync(configPath);
 
-    if (configExists && !config.reset) {
-      printInfo(
-        `Configuration already exists at ${configPath}. ` +
-          'Use --reset to overwrite.',
-      );
-    } else {
+    const shouldWrite =
+      !configExists ||
+      (await shouldOverwriteExistingConfig(config, configPath));
+
+    if (shouldWrite) {
       const liteResult = writeLiteConfig(
         config,
         configExists ? configPath : undefined,
@@ -295,9 +316,9 @@ async function runInstall(config: InstallConfig): Promise<number> {
   console.log();
 
   const modelsInfo =
-    config.preset && config.preset !== 'openai'
-      ? `Generated OpenAI and OpenCode Go presets; ${config.preset} is active.`
-      : 'Generated OpenAI and OpenCode Go presets; OpenAI is active by default.';
+    config.preset && config.preset !== 'mgb'
+      ? `Generated MGB and OpenCode Go presets; ${config.preset} is active.`
+      : 'Generated MGB and OpenCode Go presets; MGB is active by default.';
   console.log(`${modelsInfo}`);
   const altProviders = 'For the full configuration reference, see:';
   console.log(altProviders);
@@ -318,6 +339,7 @@ export async function install(args: InstallArgs): Promise<number> {
     installCustomSkills: args.skills === 'yes',
     preset: args.preset,
     promptForStar: args.tui,
+    tui: args.tui,
     dryRun: args.dryRun,
     reset: args.reset ?? false,
   };

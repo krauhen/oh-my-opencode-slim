@@ -20,6 +20,7 @@ export interface InstallConfig {
   installCustomSkills: boolean;
   preset?: string;
   promptForStar?: boolean;
+  tui?: boolean;
   dryRun?: boolean;
   reset: boolean;
 }
