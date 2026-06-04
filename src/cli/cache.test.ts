@@ -40,25 +40,6 @@ mock.module('../utils/compat', () => ({
   crossSpawn: crossSpawnMock,
 }));
 
-const nonexistentPath = '/nonexistent/opencode.json';
-mock.module('./paths', () => ({
-  getConfigDir: () => '/nonexistent',
-  getConfigSearchDirs: () => ['/nonexistent'],
-  getOpenCodeConfigPaths: () => [],
-  getConfigJson: () => nonexistentPath,
-  getConfigJsonc: () => nonexistentPath,
-  getLiteConfig: () => nonexistentPath,
-  getLiteConfigJsonc: () => nonexistentPath,
-  getTuiConfig: () => nonexistentPath,
-  getTuiConfigJsonc: () => nonexistentPath,
-  getExistingLiteConfigPath: () => nonexistentPath,
-  getExistingTuiConfigPath: () => nonexistentPath,
-  getExistingConfigPath: () => nonexistentPath,
-  ensureConfigDir: () => {},
-  ensureTuiConfigDir: () => {},
-  ensureOpenCodeConfigDir: () => {},
-}));
-
 let importCounter = 0;
 
 function createSpawnResult(exitCode = 0): SpawnResult {
@@ -79,6 +60,7 @@ async function importFreshConfigIo() {
 describe('warmOpenCodePluginCache', () => {
   const originalArgv = [...process.argv];
   const originalXdgCacheHome = process.env.XDG_CACHE_HOME;
+  const originalXdgConfigHome = process.env.XDG_CONFIG_HOME;
 
   beforeEach(() => {
     crossSpawnMock.mockReset();
@@ -89,6 +71,7 @@ describe('warmOpenCodePluginCache', () => {
       },
     );
     delete process.env.XDG_CACHE_HOME;
+    process.env.XDG_CONFIG_HOME = '/nonexistent';
   });
 
   afterEach(() => {
@@ -97,6 +80,11 @@ describe('warmOpenCodePluginCache', () => {
       delete process.env.XDG_CACHE_HOME;
     } else {
       process.env.XDG_CACHE_HOME = originalXdgCacheHome;
+    }
+    if (originalXdgConfigHome === undefined) {
+      delete process.env.XDG_CONFIG_HOME;
+    } else {
+      process.env.XDG_CONFIG_HOME = originalXdgConfigHome;
     }
   });
 

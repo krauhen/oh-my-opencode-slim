@@ -41,10 +41,16 @@ function aliasPrefix(agentType: AgentName): string {
       return 'fix';
     case 'observer':
       return 'obs';
+    case 'ticket-planner':
+      return 'tkt';
     case 'council':
       return 'cnc';
     case 'councillor':
       return 'clr';
+    case 'council-master':
+      return 'cm';
+    case 'tester':
+      return 'tst';
     case 'orchestrator':
       return 'orc';
   }

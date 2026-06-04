@@ -77,6 +77,37 @@ describe('task-session-manager hook', () => {
     expect(userMessage.parts[0].text).toContain('</resumable_sessions>');
   });
 
+  test('stores sessions for all resumable specialist agent types', async () => {
+    const resumableAgents = [
+      ['ticket-planner', 'tkt-1'],
+      ['tester', 'tst-1'],
+      ['council-master', 'cm-1'],
+    ] as const;
+
+    for (const [agent, alias] of resumableAgents) {
+      const { hook } = createHook();
+
+      await hook['tool.execute.before'](
+        { tool: 'task', sessionID: 'parent-1', callID: 'call-1' },
+        { args: { subagent_type: agent, description: `${agent} work` } },
+      );
+      await hook['tool.execute.after'](
+        { tool: 'task', sessionID: 'parent-1', callID: 'call-1' },
+        {
+          output:
+            'task_id: child-1 (for resuming to continue this task if needed)',
+        },
+      );
+
+      const messages = createMessages('parent-1', 'do something');
+      await hook['experimental.chat.messages.transform']({}, messages);
+
+      expect(messages.messages[0].parts[0].text).toContain(
+        `${agent}: ${alias} ${agent} work`,
+      );
+    }
+  });
+
   test('does not expose a system transform for resumable sessions', async () => {
     const { hook } = createHook();
     expect('experimental.chat.system.transform' in hook).toBe(false);

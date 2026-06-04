@@ -144,9 +144,7 @@ export function buildOrchestratorPrompt(disabledAgents?: Set<string>): string {
 
   // Filter validation routing lines — remove lines mentioning any disabled agent
   const enabledValidationRouting = VALIDATION_ROUTING.filter((line) => {
-    const mentions = [...line.matchAll(/@([a-zA-Z0-9_-]+)/g)].map(
-      (m) => m[1],
-    );
+    const mentions = [...line.matchAll(/@([a-zA-Z0-9_-]+)/g)].map((m) => m[1]);
     if (mentions.length === 0) return true;
     return mentions.every((name) => !disabledAgents?.has(name));
   }).join('\n');

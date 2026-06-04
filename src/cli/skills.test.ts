@@ -13,9 +13,12 @@ describe('skills permissions', () => {
   });
 
   it('should allow bundled skills for specific agents', () => {
-    // Designer should only inherit the default non-orchestrator deny rule
+    // Designer should deny unknown skills but allow its recommended UI/browser skills.
     const designerPerms = getSkillPermissionsForAgent('designer');
-    expect(Object.keys(designerPerms)).toEqual(['*']);
+    expect(designerPerms['*']).toBe('deny');
+    expect(designerPerms['frontend-design']).toBe('allow');
+    expect(designerPerms['webapp-testing']).toBe('allow');
+    expect(designerPerms['playwright-best-practices']).toBe('allow');
 
     // Oracle should have simplify allowed by default
     const oraclePerms = getSkillPermissionsForAgent('oracle');

@@ -32,8 +32,11 @@ const AGENT_NAME_SET = new Set<AgentName>([
   'librarian',
   'fixer',
   'observer',
+  'ticket-planner',
+  'tester',
   'council',
   'councillor',
+  'council-master',
 ]);
 
 const MAX_PENDING_TASK_CALLS = 100;
